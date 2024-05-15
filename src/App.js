@@ -1,8 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 import ToDo from './components/ToDo'
-import ToDoFuncComp from './components/ToDoFuncComp'
-import ToDoClassComp from './components/ToDoClassComp';
+// import ToDoClassComp from './components/ToDoClassComp';
 
 function App() {
   return (
@@ -10,10 +8,8 @@ function App() {
       <ToDo/>
       <br/>
       <hr/>
-      <br/>
-      <ToDoClassComp/>
-      <hr/>
-      <ToDoFuncComp/>
+
+      {/* <ToDoClassComp/> */}
     </div>
   );
 }

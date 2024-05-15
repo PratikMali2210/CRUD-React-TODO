@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import "bootstrap/dist/css/bootstrap.css"; 
 
 export default function ToDo() {
 
   const [userInput, setUserInput] = useState("");
   const [list, setList] = useState([]);
-  const [updateItem,setUpdateItem] = useState(false);
+  const [updateItem, setUpdateItem] = useState(false);
+  const [currentItemId, setCurrentItemId] = useState(null);
+
 
   const updateInput = (value) => {
     setUserInput(value);
@@ -24,19 +27,28 @@ export default function ToDo() {
   };
 
   const deleteItem = (id) => {
-    const updatedList = list.filter((item)=> item.id !== id);
+    const updatedList = list.filter((item) => item.id !== id);
     setList(updatedList);
   };
 
-  const editItem = (editItem) => {
-    console.log(editItem.id);
-    const userInput = list.filter((item)=>item.id == editItem.id);
-    console.log(editItem.value);
+  const editItem = (index, editItem) => {
+    const editedItemValue = list.find((item) => item.id === editItem.id).value;
     setUserInput(editItem.value);
+    setCurrentItemId(editItem.id);
     setUpdateItem(true);
-  };
-  const addEditedItem = ()=> {
+  };  
+
+  const addEditedItem = () => {
+    setList(list.map(item=>{
+      if(userInput.trim() !== ''){
+        return item.id === currentItemId ? {...item,value:userInput} : item
+      }else{
+        return item;
+      }
+    }));
+    setUserInput("");
     setUpdateItem(false);
+    setCurrentItemId(null);
 
   };
 
@@ -60,7 +72,7 @@ export default function ToDo() {
           {updateItem?
           <button
           className='btn btn-primary mx-1'
-          onClick={() => addEditedItem()}
+          onClick={(index) => addEditedItem(index)}
          >Update</button>
          :
         <button
@@ -70,7 +82,8 @@ export default function ToDo() {
         </div>
       </div>
       <div className="row">
-        <div className='col-md-5 my-2 '>
+        {/* <div className='col-2'></div> */}
+        <div className='col my-2 '>
           <ul className="list-group ">
             {list.map((item, index) => (
               <li
@@ -81,12 +94,12 @@ export default function ToDo() {
                 <div>
                   <button
                     className='btn btn-warning m-2'
-                    onClick={()=>editItem(item)}
-                    >Edit
+                    onClick={()=>editItem(index,item)}
+                  >Edit
                   </button>
                   <button
-                    className='btn btn-danger'
-                    onClick={()=>deleteItem(item.id)}
+                    className='btn btn-danger btn-xl'
+                    onClick={() => deleteItem(item.id)}
                   >Delete
                   </button>
                 </div>
