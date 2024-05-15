@@ -32,7 +32,7 @@ export default function ToDo() {
   };
 
   const editItem = (index, editItem) => {
-    const editedItemValue = list.find((item) => item.id === editItem.id).value;
+    // const editedItemValue = list.find((item) => item.id === editItem.id).value;
     setUserInput(editItem.value);
     setCurrentItemId(editItem.id);
     setUpdateItem(true);
